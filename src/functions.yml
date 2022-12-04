@@ -1,0 +1,16 @@
+# 에러 로그 트리거
+PostsErrorLog:
+  handler: src/posts/errorLog/index.handler
+  package:
+    patterns:
+      - 'src/posts/errorLog/**'
+  events:
+    - eventBridge:
+        eventBus: ${env:AWS_EVENTBUS_COMMUNITY_ARN}
+        pattern:
+          source:
+            - posts
+          detail-type:
+            - error-log
+  layers:
+    - ${env:AWS_LAMBDA_LAYER}
